@@ -2,6 +2,10 @@ let cells = document.getElementsByClassName("cell")
 let answerButtons = document.getElementById("answer-buttons")
 
 function main() {
+    document.getElementById("init").addEventListener("click", function () {
+        let board = getRandomBoard()
+        fillBoard(board)
+    })
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i]
         cell.addEventListener("click", function () {
@@ -9,6 +13,7 @@ function main() {
             console.log("CLICKED", cell.id)
             answerButtons.setAttribute("cellNumber", `${cell.getAttribute("id")}`)
             buttonsStyling(cell.id)
+            cell.style.border = "3px solid gray"
         })
     }
     for (let i = 0, answerElements = answerButtons.getElementsByClassName("answer-button"); i < answerElements.length; i++) {
@@ -23,7 +28,7 @@ function main() {
         })
     }
 
-    fillBoard(getRandomBoard())
+    // fillBoard(getRandomBoard())
 }
 
 main()
@@ -31,7 +36,10 @@ main()
 function buttonsStyling(cellId) {
     let cell = document.getElementById(cellId)
     Array.from(document.getElementsByClassName("answer-button")).forEach(element => element.style.backgroundColor = "white")
-    Array.from(document.getElementsByClassName("cell")).forEach(element => element.style.backgroundColor = "white")
+    Array.from(document.getElementsByClassName("cell")).forEach(element => {
+        element.style.backgroundColor = "white"
+        element.style.removeProperty("border")
+    })
     stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[1]))
     stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[2]))
     stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[3]))
@@ -93,7 +101,16 @@ function stylingHavingDigits(numbersMap) {
 }
 
 function fillBoard(board) {
-    console.log(board)
+    Array.from(document.getElementsByClassName("cell")).forEach(element => {
+        element.removeAttribute("style")
+        element.disabled = false
+        element.innerText = ""
+    })
+    Array.from(document.getElementsByClassName("answer-button")).forEach(element => {
+        element.removeAttribute("style")
+        element.removeAttribute("display")
+        element.disabled = false
+    })
     for (let i = 0; i < 9; i++) {
         Array.from(document.getElementsByClassName(`row${i + 1}`)).forEach((element, j) => {
             if (board[i][j] !== 0) {
@@ -105,16 +122,41 @@ function fillBoard(board) {
 }
 
 function getRandomBoard() {
-    const board1 = [
-        [1, 0, 4, 8, 6, 5, 2, 3, 7],
-        [7, 3, 0, 4, 1, 2, 9, 6, 8],
-        [8, 0, 2, 3, 9, 7, 1, 0, 5],
-        [9, 2, 1, 7, 4, 8, 3, 5, 6],
-        [6, 7, 8, 5, 3, 1, 4, 2, 9],
-        [4, 5, 3, 9, 2, 6, 8, 7, 1],
-        [3, 8, 9, 0, 5, 4, 7, 1, 2],
-        [2, 4, 6, 1, 7, 9, 5, 8, 3],
-        [5, 1, 7, 2, 8, 3, 6, 9, 4]
-    ]
-    return board1
+    const boards =
+        [
+            [
+                [1, 0, 4, 8, 6, 5, 2, 3, 7],
+                [7, 3, 0, 4, 1, 2, 9, 6, 8],
+                [8, 0, 2, 3, 9, 7, 1, 0, 5],
+                [9, 2, 1, 7, 4, 8, 3, 5, 6],
+                [6, 7, 8, 5, 3, 1, 4, 2, 9],
+                [4, 5, 3, 9, 2, 6, 8, 7, 1],
+                [3, 8, 9, 0, 5, 4, 7, 1, 2],
+                [2, 4, 6, 1, 7, 9, 5, 8, 3],
+                [5, 1, 7, 2, 8, 3, 6, 9, 4]
+            ],
+            [
+                [8, 7, 0, 5, 0, 0, 0, 6, 0],
+                [0, 1, 0, 0, 0, 0, 2, 0, 7],
+                [6, 4, 0, 1, 8, 0, 5, 0, 9],
+                [0, 0, 0, 0, 0, 1, 0, 0, 0],
+                [1, 2, 0, 0, 0, 6, 0, 7, 5],
+                [0, 0, 8, 0, 7, 2, 0, 0, 6],
+                [0, 0, 0, 6, 0, 5, 0, 0, 8],
+                [0, 0, 0, 0, 0, 4, 0, 0, 0],
+                [9, 0, 4, 0, 0, 8, 6, 2, 1]
+            ],
+            [
+                [0, 3, 2, 1, 0, 4, 0, 7, 0],
+                [5, 0, 0, 3, 0, 0, 0, 0, 2],
+                [0, 0, 0, 6, 2, 5, 0, 0, 0],
+                [0, 8, 0, 0, 6, 1, 0, 2, 0],
+                [0, 0, 7, 4, 0, 2, 6, 0, 8],
+                [2, 0, 1, 7, 8, 0, 0, 5, 4],
+                [6, 4, 0, 0, 0, 0, 0, 3, 0],
+                [0, 9, 8, 0, 0, 3, 7, 0, 0],
+                [7, 2, 3, 0, 5, 6, 0, 0, 1]
+            ]
+        ]
+    return boards[Math.floor(Math.random() * boards.length)]
 }
