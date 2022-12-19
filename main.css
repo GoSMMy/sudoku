@@ -1,0 +1,124 @@
+*{
+  box-sizing: border-box;
+  min-width: 10px;
+  max-width: 100vw;
+
+}
+html,body{
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  position: relative;
+
+}
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas{
+  box-sizing: border-box;
+  max-width: 500px;
+  min-width: 100px;
+  padding: 20px;
+  width: min-content;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.1s;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+  border-radius: 8px;
+}
+.table{
+  display: flex;
+}
+.div-containers{
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: 0;
+  box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+  border-radius: 8px;
+  height: min-content;
+}
+.btn-containers{
+  display: inline-flex;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 8px;
+}
+
+#answer-buttons {
+  display: none;
+}
+
+.disabled {
+  background-color: #6893ff;
+}
+
+.btn-containers button{
+  width:  50px;
+  height: 50px;
+  font-size: 20px;
+  background-color: white;
+  border: 1px solid gray;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+@media only screen and (max-width:600px){
+  .btn-containers button{
+    width:  40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width:450px){
+  .btn-containers button{
+    width:  35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width:350px){
+  .btn-containers button{
+    width:  30px;
+    height: 30px;
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width:300px){
+  .btn-containers button{
+    width:  25px;
+    height: 25px;
+    font-size: 10px;
+  }
+}
+.values{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  padding:2em;
+}
+.values button{
+  border: 1px solid gray;
+  background-color: rgb(177, 175, 175);
+  border-radius: 50%;
+  margin: 1px;
+  width: 50px;
+  height: 50px;
+  transition: 0.5s;
+}
+.values button:focus{
+  outline: none;
+}
+#reset{
+  background-color: red;
+  color: white;
+}
