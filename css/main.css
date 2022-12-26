@@ -110,10 +110,14 @@ body {
   width: 50px;
   height: 50px;
   font-size: 20px;
-  background-color: white;
+  /*background-color: white;*/
   border: 1px solid gray;
   transition: 0.3s;
   border-radius: 8px;
+}
+
+button {
+  background-color: white;
 }
 
 @media only screen and (max-width: 600px) {
@@ -170,7 +174,10 @@ body {
   outline: none;
 }
 
-#reset {
-  background-color: red;
-  color: white;
+.duplicate {
+  background-color: red !important;
+}
+
+.mouseover {
+  background-color: aqua;
 }

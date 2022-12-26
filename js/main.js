@@ -1,5 +1,7 @@
 let cells = document.getElementsByClassName("cell")
 let [answerButtons] = document.getElementsByClassName("answer-buttons")
+let clicked = false
+let duplicates = false
 
 function main() {
     Array.from(document.getElementsByClassName("new-game")).forEach(element => {
@@ -10,10 +12,34 @@ function main() {
     })
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i]
+        cell.addEventListener("mouseout", function () {
+            cell.classList.forEach((value) => {
+                    if (clicked === false && value !== "cell") {
+                        Array.from(document.getElementsByClassName(value)).forEach(element =>
+                            element.classList.remove("mouseover")
+                        )
+                    }
+                }
+            )
+        })
+        cell.addEventListener("mouseover", function () {
+            if (clicked === false) {
+                Array.from(cells).forEach(element => element.classList.remove("mouseover"))
+            }
+            cell.classList.forEach((value) => {
+                    if (clicked === false && value !== "cell") {
+                        Array.from(document.getElementsByClassName(value)).forEach(element =>
+                            element.classList.add("mouseover")
+                        )
+                    }
+                }
+            )
+        })
         cell.addEventListener("click", function () {
             answerButtons.classList.add("answer-buttons-visible")
             console.log("CLICKED", cell.id)
             answerButtons.setAttribute("cellNumber", `${cell.getAttribute("id")}`)
+            clicked = true
             buttonsStyling(cell.id)
             cell.style.border = "3px solid gray"
         })
@@ -26,6 +52,7 @@ function main() {
                 document.getElementById(cellId).innerText = ""
             else
                 document.getElementById(cellId).innerText = answerButton.innerText
+            clicked = false
             buttonsStyling(cellId)
         })
     }
@@ -39,7 +66,7 @@ function buttonsStyling(cellId) {
     let cell = document.getElementById(cellId)
     Array.from(document.getElementsByClassName("answer-button")).forEach(element => element.style.backgroundColor = "white")
     Array.from(document.getElementsByClassName("cell")).forEach(element => {
-        element.style.backgroundColor = "white"
+        element.classList.remove("duplicate")
         element.style.removeProperty("border")
     })
     stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[1]))
@@ -59,6 +86,7 @@ function getHavingDigits(blockNumber) {
 }
 
 function stylingCells() {
+    duplicates = false
     let slices = ["block", "row", "col"]
     let winProgress = 0
 
@@ -69,8 +97,9 @@ function stylingCells() {
                 if (element.innerText !== "" && !Array.from(uniqueMap.keys()).includes(element.innerText)) {
                     uniqueMap.set(element.innerText, element.id)
                 } else if (element.innerText !== "") {
-                    document.getElementById(uniqueMap.get(element.innerText)).style.backgroundColor = "red"
-                    document.getElementById(element.id).style.backgroundColor = "red"
+                    duplicates = true
+                    document.getElementById(uniqueMap.get(element.innerText)).classList.add("duplicate")
+                    document.getElementById(element.id).classList.add("duplicate")
                 }
             })
             if (uniqueMap.size === 9)
@@ -84,6 +113,14 @@ function stylingCells() {
         // document.getElementsByClassName("win-container")
         win()
     }
+}
+
+function autoSolver() {
+    if (duplicates) {
+        alert("Ошибка: На поле присутсвуют дупликаты")
+    }
+
+    
 }
 
 function win() {
