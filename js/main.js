@@ -1,15 +1,17 @@
 let cells = document.getElementsByClassName("cell")
-let answerButtons = document.getElementById("answer-buttons")
+let [answerButtons] = document.getElementsByClassName("answer-buttons")
 
 function main() {
-    document.getElementById("init").addEventListener("click", function () {
-        let board = getRandomBoard()
-        fillBoard(board)
+    Array.from(document.getElementsByClassName("new-game")).forEach(element => {
+        element.addEventListener("click", function () {
+            let board = getRandomBoard()
+            fillBoard(board)
+        })
     })
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i]
         cell.addEventListener("click", function () {
-            answerButtons.style.display = "block"
+            answerButtons.classList.add("answer-buttons-visible")
             console.log("CLICKED", cell.id)
             answerButtons.setAttribute("cellNumber", `${cell.getAttribute("id")}`)
             buttonsStyling(cell.id)
@@ -77,6 +79,9 @@ function stylingCells() {
     }
 
     if (winProgress === 27) {
+        document.getElementsByClassName("win-container")[0].classList.remove("hide")
+        document.getElementsByClassName("answer-buttons")[0].classList.remove("answer-buttons-visible")
+        // document.getElementsByClassName("win-container")
         win()
     }
 }
