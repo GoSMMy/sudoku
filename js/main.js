@@ -1,24 +1,57 @@
 let cells = document.getElementsByClassName("cell")
 let [answerButtons] = document.getElementsByClassName("answer-buttons")
+let [answerHelper] = document.getElementsByClassName("answer-helper")
+let [boardHelper] = document.getElementsByClassName("board-helper")
+let cancelStopwatch = null
+let answerHelperToggle = false
+let boardHelperToggle = false
+let currentCell = null
+let onlyDigits = new RegExp("\\d")
+let onlyArrows = new RegExp("(ArrowUp)|(ArrowDown)|(ArrowLeft)|(ArrowRight)")
 let clicked = false
 let duplicates = false
 
+const stopwatch = (onUpdate) => {
+    const start = Date.now();
+    const intervalId = setInterval(() => {
+        const time = new Date(Date.now() - start);
+        const diff = (Date.now() - start) / 1000;
+        const minutes = Math.floor((diff / 60));
+        const seconds = time.getSeconds();
+
+        const result = [minutes, seconds]
+            .map((item) => item < 10 ? `0${item}` : item)
+            .join(':');
+        onUpdate(result);
+    }, 500)
+
+    return () => {
+        clearInterval(intervalId);
+    }
+}
+
 function main() {
-    Array.from(document.getElementsByClassName("new-game")).forEach(element => {
-        element.addEventListener("click", function () {
-            let board = getRandomBoard()
-            fillBoard(board)
+    document.getElementsByClassName("new-game")[0].addEventListener("click", function () {
+        cancelStopwatch?.()
+        cancelStopwatch = stopwatch((time) => {
+            const timer = document.getElementsByClassName("timer")[0]
+            timer.innerText = time
         })
+        let board = getRandomBoard()
+        fillBoard(board)
+        buttonsStyling()
+        borderBacklightHelperStyling()
+        document.getElementsByClassName("footer")[0].classList.add("answer-buttons-visible")
     })
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i]
         cell.addEventListener("mouseout", function () {
             cell.classList.forEach((value) => {
-                    if (clicked === false && value !== "cell") {
-                        Array.from(document.getElementsByClassName(value)).forEach(element =>
-                            element.classList.remove("mouseover")
-                        )
-                    }
+                if (clicked === false && value !== "cell") {
+                    Array.from(document.getElementsByClassName(value)).forEach(element =>
+                        element.classList.remove("mouseover")
+                    )
+                }
                 }
             )
         })
@@ -26,52 +59,146 @@ function main() {
             if (clicked === false) {
                 Array.from(cells).forEach(element => element.classList.remove("mouseover"))
             }
-            cell.classList.forEach((value) => {
-                    if (clicked === false && value !== "cell") {
-                        Array.from(document.getElementsByClassName(value)).forEach(element =>
-                            element.classList.add("mouseover")
-                        )
+            if (boardHelperToggle) {
+                cell.classList.forEach((value) => {
+                        if (clicked === false && (value.match("(row.*)") || value.match("(col.*)") || value.match("(block.*)"))) {
+                            Array.from(document.getElementsByClassName(value)).forEach(element =>
+                                element.classList.add("mouseover")
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         })
         cell.addEventListener("click", function () {
-            answerButtons.classList.add("answer-buttons-visible")
-            console.log("CLICKED", cell.id)
-            answerButtons.setAttribute("cellNumber", `${cell.getAttribute("id")}`)
+            document.getElementsByClassName("footer")[0].classList.add("answer-buttons-visible")
+            changeCurrentCell(cell)
             clicked = true
-            buttonsStyling(cell.id)
-            cell.style.border = "3px solid gray"
         })
     }
+    document.addEventListener("keydown", (e) => keyBoardHandler(e))
     for (let i = 0, answerElements = answerButtons.getElementsByClassName("answer-button"); i < answerElements.length; i++) {
         let answerButton = answerElements[i]
         answerButton.addEventListener("click", function () {
-            let cellId = answerButtons.getAttribute("cellNumber")
             if (answerButton.id === "abC")
-                document.getElementById(cellId).innerText = ""
+                currentCell.innerText = ""
             else
-                document.getElementById(cellId).innerText = answerButton.innerText
+                currentCell.innerText = answerButton.innerText
             clicked = false
-            buttonsStyling(cellId)
+            buttonsStyling()
         })
     }
 
-    // fillBoard(getRandomBoard())
+    answerHelper.addEventListener("click", function () {
+        if (answerHelperToggle) {
+            answerHelper.classList.remove("answer-helper-hover")
+            answerHelperToggle = false
+            buttonsStyling()
+        } else {
+            answerHelper.classList.add("answer-helper-hover")
+            answerHelperToggle = true
+            buttonsStyling()
+        }
+    })
+
+    boardHelper.addEventListener("click", function () {
+        if (boardHelperToggle) {
+            boardHelper.classList.remove("answer-helper-hover")
+            boardHelperToggle = false
+            borderBacklightHelperStyling()
+        } else {
+            boardHelper.classList.add("answer-helper-hover")
+            boardHelperToggle = true
+            borderBacklightHelperStyling()
+        }
+    })
 }
 
 main()
 
-function buttonsStyling(cellId) {
-    let cell = document.getElementById(cellId)
-    Array.from(document.getElementsByClassName("answer-button")).forEach(element => element.style.backgroundColor = "white")
+function changeCurrentCell(toCell) {
+    currentCell = toCell
+    buttonsStyling()
+    borderBacklightHelperStyling()
+}
+
+function keyBoardHandler(event) {
+    if (event.key.match(onlyDigits)) {
+        currentCell.innerText = currentCell.classList.contains("disabled") === false ? event.key : currentCell.innerText
+        buttonsStyling()
+    } else if (event.key.match("Backspace")) {
+        currentCell.innerText = currentCell.classList.contains("disabled") === false ? "" : currentCell.innerText
+        buttonsStyling()
+    } else if (event.key.match(onlyArrows)) {
+        switch (event.key) {
+            case "ArrowUp":
+                changeCurrentCell(getNextCell(-1, 0))
+                break
+            case "ArrowDown":
+                changeCurrentCell(getNextCell(1, 0))
+                break
+            case "ArrowLeft":
+                changeCurrentCell(getNextCell(0, -1))
+                break
+            case "ArrowRight":
+                changeCurrentCell(getNextCell(0, 1))
+                break
+            default:
+                break
+        }
+    }
+}
+
+function getNextCell(row, col) {
+    if (currentCell === null)
+        currentCell = document.getElementById("row1-col1")
+    let currentCords = currentCell.id.split("-")
+    let resultRow = parseInt(currentCords[0][3]) + row
+    let resultCol = parseInt(currentCords[1][3]) + col
+    if (resultRow <= 0)
+        resultRow = 9
+    else if (resultRow >= 10)
+        resultRow = 1
+    if (resultCol <= 0)
+        resultCol = 9
+    else if (resultCol >= 10)
+        resultCol = 1
+    return document.getElementById(`row${resultRow}-col${resultCol}`)
+}
+
+function buttonsStyling() {
+    let parts = currentCell.classList
+    Array.from(document.getElementsByClassName("answer-button")).forEach(element => element.classList.remove("havingNumber"))
     Array.from(document.getElementsByClassName("cell")).forEach(element => {
+        element.classList.remove("currentCell")
         element.classList.remove("duplicate")
-        element.style.removeProperty("border")
+        element.classList.remove("win")
     })
-    stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[1]))
-    stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[2]))
-    stylingHavingDigits(getHavingDigits(cell.getAttribute("class").split(" ")[3]))
+    if (currentCell !== null)
+        currentCell.classList.add("currentCell")
+    if (answerHelperToggle) {
+        stylingHavingDigits(getHavingDigits(parts[1]))
+        stylingHavingDigits(getHavingDigits(parts[2]))
+        stylingHavingDigits(getHavingDigits(parts[3]))
+    }
+    stylingCells()
+}
+
+function borderBacklightHelperStyling() {
+    Array.from(cells).forEach(element => {
+        element.classList.remove("duplicate")
+        element.classList.remove("mouseover")
+    })
+    if (boardHelperToggle) {
+        currentCell.classList.forEach((value) => {
+                if (value !== "cell" && (value.match("(row.*)") || value.match("(col.*)") || value.match("(block.*)"))) {
+                    Array.from(document.getElementsByClassName(value)).forEach(element =>
+                        element.classList.add("mouseover")
+                    )
+                }
+            }
+        )
+    }
     stylingCells()
 }
 
@@ -87,19 +214,21 @@ function getHavingDigits(blockNumber) {
 
 function stylingCells() {
     duplicates = false
-    let slices = ["block", "row", "col"]
+    let parts = ["block", "row", "col"]
     let winProgress = 0
 
-    for (let i = 0; i < slices.length; i++) {
+    for (let i = 0; i < parts.length; i++) {
         for (let j = 1; j <= 9; j++) {
             let uniqueMap = new Map;
-            Array.from(document.getElementsByClassName(`${slices[i]}${j}`)).forEach(element => {
+            Array.from(document.getElementsByClassName(`${parts[i]}${j}`)).forEach(element => {
                 if (element.innerText !== "" && !Array.from(uniqueMap.keys()).includes(element.innerText)) {
                     uniqueMap.set(element.innerText, element.id)
                 } else if (element.innerText !== "") {
                     duplicates = true
-                    document.getElementById(uniqueMap.get(element.innerText)).classList.add("duplicate")
-                    document.getElementById(element.id).classList.add("duplicate")
+                    if (boardHelperToggle) {
+                        document.getElementById(uniqueMap.get(element.innerText)).classList.add("duplicate")
+                        document.getElementById(element.id).classList.add("duplicate")
+                    }
                 }
             })
             if (uniqueMap.size === 9)
@@ -108,56 +237,42 @@ function stylingCells() {
     }
 
     if (winProgress === 27) {
-        document.getElementsByClassName("win-container")[0].classList.remove("hide")
-        document.getElementsByClassName("answer-buttons")[0].classList.remove("answer-buttons-visible")
-        // document.getElementsByClassName("win-container")
+        document.getElementsByClassName("footer")[0].classList.remove("answer-buttons-visible")
         win()
     }
-}
-
-function autoSolver() {
-    if (duplicates) {
-        alert("Ошибка: На поле присутсвуют дупликаты")
-    }
-
-    
 }
 
 function win() {
     Array.from(document.getElementsByClassName("cell"))
         .forEach(element => {
-            element.style.backgroundColor = "green"
-            element.disabled = true
+            element.classList.remove("mouseover")
+            element.classList.add("win")
+            element.classList.add("disabled")
         })
-    Array.from(document.getElementsByClassName("answer-button"))
-        .forEach(element => {
-            element.disabled = true
-        })
-
+    cancelStopwatch?.()
 }
 
 function stylingHavingDigits(numbersMap) {
     Array.from(numbersMap.values()).forEach(value => {
-        document.getElementById(`ab${value}`).style.backgroundColor = "gray"
+        document.getElementById(`ab${value}`).classList.add("havingNumber")
     })
 }
 
 function fillBoard(board) {
     Array.from(document.getElementsByClassName("cell")).forEach(element => {
-        element.removeAttribute("style")
-        element.disabled = false
+        element.classList.remove("disabled")
         element.innerText = ""
     })
-    Array.from(document.getElementsByClassName("answer-button")).forEach(element => {
-        element.removeAttribute("style")
-        element.removeAttribute("display")
-        element.disabled = false
-    })
+    // Array.from(document.getElementsByClassName("answer-button")).forEach(element => {
+    //     element.removeAttribute("style")
+    //     element.removeAttribute("display")
+    //     element.disabled = false
+    // })
     for (let i = 0; i < 9; i++) {
         Array.from(document.getElementsByClassName(`row${i + 1}`)).forEach((element, j) => {
             if (board[i][j] !== 0) {
                 element.innerText = board[i][j]
-                element.disabled = true
+                element.classList.add("disabled")
             }
         })
     }

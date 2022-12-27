@@ -5,208 +5,229 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="css/main.css"/>
-    <link rel="stylesheet" href="css/fireworks.css"/>
     <title>Sudoku</title>
 </head>
 
 <body>
-<div id="menu-buttons">
+
+<div class="sudoku">
     <div class="help-div-container">
         <div class="help-btn-container">
-            <button class="answer-helper">Help1</button>
+            <button class="auto-solver">Auto Solve</button>
         </div>
         <div class="timer-container">
             <div class="timer">00:00</div>
         </div>
         <div class="help-btn-container">
-            <button class="board-helper">Help2</button>
-        </div>
-    </div>
-</div>
-<div class="canvas">
-    <div class="win-container hide">
-        <div class="win">
             <button class="new-game">New Game</button>
         </div>
     </div>
-    <div class="table">
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row1-col1" class="cell block1 row1 col1"></button>
-                <button id="row1-col2" class="cell block1 row1 col2"></button>
-                <button id="row1-col3" class="cell block1 row1 col3"></button>
+
+    <div class="canvas">
+        <div class="table">
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row1-col1" class="cell block1 row1 col1"></button>
+                    <button id="row1-col2" class="cell block1 row1 col2"></button>
+                    <button id="row1-col3" class="cell block1 row1 col3"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row2-col1" class="cell block1 row2 col1"></button>
+                    <button id="row2-col2" class="cell block1 row2 col2"></button>
+                    <button id="row2-col3" class="cell block1 row2 col3"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row3-col1" class="cell block1 row3 col1"></button>
+                    <button id="row3-col2" class="cell block1 row3 col2"></button>
+                    <button id="row3-col3" class="cell block1 row3 col3"></button>
+                </div>
             </div>
-            <div class="btn-containers">
-                <button id="row2-col1" class="cell block1 row2 col1"></button>
-                <button id="row2-col2" class="cell block1 row2 col2"></button>
-                <button id="row2-col3" class="cell block1 row2 col3"></button>
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row1-col4" class="cell block2 row1 col4"></button>
+                    <button id="row1-col5" class="cell block2 row1 col5"></button>
+                    <button id="row1-col6" class="cell block2 row1 col6"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row2-col4" class="cell block2 row2 col4"></button>
+                    <button id="row2-col5" class="cell block2 row2 col5"></button>
+                    <button id="row2-col6" class="cell block2 row2 col6"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row3-col4" class="cell block2 row3 col4"></button>
+                    <button id="row3-col5" class="cell block2 row3 col5"></button>
+                    <button id="row3-col6" class="cell block2 row3 col6"></button>
+                </div>
             </div>
-            <div class="btn-containers">
-                <button id="row3-col1" class="cell block1 row3 col1"></button>
-                <button id="row3-col2" class="cell block1 row3 col2"></button>
-                <button id="row3-col3" class="cell block1 row3 col3"></button>
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row1-col7" class="cell block3 row1 col7"></button>
+                    <button id="row1-col8" class="cell block3 row1 col8"></button>
+                    <button id="row1-col9" class="cell block3 row1 col9"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row2-col7" class="cell block3 row2 col7"></button>
+                    <button id="row2-col8" class="cell block3 row2 col8"></button>
+                    <button id="row2-col9" class="cell block3 row2 col9"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row3-col7" class="cell block3 row3 col7"></button>
+                    <button id="row3-col8" class="cell block3 row3 col8"></button>
+                    <button id="row3-col9" class="cell block3 row3 col9"></button>
+                </div>
             </div>
         </div>
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row1-col4" class="cell block2 row1 col4"></button>
-                <button id="row1-col5" class="cell block2 row1 col5"></button>
-                <button id="row1-col6" class="cell block2 row1 col6"></button>
+        <div class="table">
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row4-col1" class="cell block4 row4 col1"></button>
+                    <button id="row4-col2" class="cell block4 row4 col2"></button>
+                    <button id="row4-col3" class="cell block4 row4 col3"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row5-col1" class="cell block4 row5 col1"></button>
+                    <button id="row5-col2" class="cell block4 row5 col2"></button>
+                    <button id="row5-col3" class="cell block4 row5 col3"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row6-col1" class="cell block4 row6 col1"></button>
+                    <button id="row6-col2" class="cell block4 row6 col2"></button>
+                    <button id="row6-col3" class="cell block4 row6 col3"></button>
+                </div>
             </div>
-            <div class="btn-containers">
-                <button id="row2-col4" class="cell block2 row2 col4"></button>
-                <button id="row2-col5" class="cell block2 row2 col5"></button>
-                <button id="row2-col6" class="cell block2 row2 col6"></button>
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row4-col4" class="cell block5 row4 col4"></button>
+                    <button id="row4-col5" class="cell block5 row4 col5"></button>
+                    <button id="row4-col6" class="cell block5 row4 col6"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row5-col4" class="cell block5 row5 col4"></button>
+                    <button id="row5-col5" class="cell block5 row5 col5"></button>
+                    <button id="row5-col6" class="cell block5 row5 col6"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row6-col4" class="cell block5 row6 col4"></button>
+                    <button id="row6-col5" class="cell block5 row6 col5"></button>
+                    <button id="row6-col6" class="cell block5 row6 col6"></button>
+                </div>
             </div>
-            <div class="btn-containers">
-                <button id="row3-col4" class="cell block2 row3 col4"></button>
-                <button id="row3-col5" class="cell block2 row3 col5"></button>
-                <button id="row3-col6" class="cell block2 row3 col6"></button>
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row4-col7" class="cell block6 row4 col7"></button>
+                    <button id="row4-col8" class="cell block6 row4 col8"></button>
+                    <button id="row4-col9" class="cell block6 row4 col9"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row5-col7" class="cell block6 row5 col7"></button>
+                    <button id="row5-col8" class="cell block6 row5 col8"></button>
+                    <button id="row5-col9" class="cell block6 row5 col9"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row6-col7" class="cell block6 row6 col7"></button>
+                    <button id="row6-col8" class="cell block6 row6 col8"></button>
+                    <button id="row6-col9" class="cell block6 row6 col9"></button>
+                </div>
             </div>
         </div>
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row1-col7" class="cell block3 row1 col7"></button>
-                <button id="row1-col8" class="cell block3 row1 col8"></button>
-                <button id="row1-col9" class="cell block3 row1 col9"></button>
+        <div class="table">
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row7-col1" class="cell block7 row7 col1"></button>
+                    <button id="row7-col2" class="cell block7 row7 col2"></button>
+                    <button id="row7-col3" class="cell block7 row7 col3"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row8-col1" class="cell block7 row8 col1"></button>
+                    <button id="row8-col2" class="cell block7 row8 col2"></button>
+                    <button id="row8-col3" class="cell block7 row8 col3"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row9-col1" class="cell block7 row9 col1"></button>
+                    <button id="row9-col2" class="cell block7 row9 col2"></button>
+                    <button id="row9-col3" class="cell block7 row9 col3"></button>
+                </div>
             </div>
-            <div class="btn-containers">
-                <button id="row2-col7" class="cell block3 row2 col7"></button>
-                <button id="row2-col8" class="cell block3 row2 col8"></button>
-                <button id="row2-col9" class="cell block3 row2 col9"></button>
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row7-col4" class="cell block8 row7 col4"></button>
+                    <button id="row7-col5" class="cell block8 row7 col5"></button>
+                    <button id="row7-col6" class="cell block8 row7 col6"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row8-col4" class="cell block8 row8 col4"></button>
+                    <button id="row8-col5" class="cell block8 row8 col5"></button>
+                    <button id="row8-col6" class="cell block8 row8 col6"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row9-col4" class="cell block8 row9 col4"></button>
+                    <button id="row9-col5" class="cell block8 row9 col5"></button>
+                    <button id="row9-col6" class="cell block8 row9 col6"></button>
+                </div>
             </div>
-            <div class="btn-containers">
-                <button id="row3-col7" class="cell block3 row3 col7"></button>
-                <button id="row3-col8" class="cell block3 row3 col8"></button>
-                <button id="row3-col9" class="cell block3 row3 col9"></button>
+            <div class="div-containers">
+                <div class="btn-containers">
+                    <button id="row7-col7" class="cell block9 row7 col7"></button>
+                    <button id="row7-col8" class="cell block9 row7 col8"></button>
+                    <button id="row7-col9" class="cell block9 row7 col9"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row8-col7" class="cell block9 row8 col7"></button>
+                    <button id="row8-col8" class="cell block9 row8 col8"></button>
+                    <button id="row8-col9" class="cell block9 row8 col9"></button>
+                </div>
+                <div class="btn-containers">
+                    <button id="row9-col7" class="cell block9 row9 col7"></button>
+                    <button id="row9-col8" class="cell block9 row9 col8"></button>
+                    <button id="row9-col9" class="cell block9 row9 col9"></button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="table">
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row4-col1" class="cell block4 row4 col1"></button>
-                <button id="row4-col2" class="cell block4 row4 col2"></button>
-                <button id="row4-col3" class="cell block4 row4 col3"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row5-col1" class="cell block4 row5 col1"></button>
-                <button id="row5-col2" class="cell block4 row5 col2"></button>
-                <button id="row5-col3" class="cell block4 row5 col3"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row6-col1" class="cell block4 row6 col1"></button>
-                <button id="row6-col2" class="cell block4 row6 col2"></button>
-                <button id="row6-col3" class="cell block4 row6 col3"></button>
+
+    <div class="footer">
+        <div class="board-helper">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <label>Border Helper Off</label>
+                </div>
+                <div class="flip-card-back">
+                    <label>Border Helper On</label>
+                </div>
             </div>
         </div>
-        <div class="div-containers">
+
+        <div class="answer-buttons">
             <div class="btn-containers">
-                <button id="row4-col4" class="cell block5 row4 col4"></button>
-                <button id="row4-col5" class="cell block5 row4 col5"></button>
-                <button id="row4-col6" class="cell block5 row4 col6"></button>
+                <button id="ab1" class="answer-button">1</button>
+                <button id="ab2" class="answer-button">2</button>
+                <button id="ab3" class="answer-button">3</button>
+                <button id="ab4" class="answer-button">4</button>
+                <button id="ab5" class="answer-button">5</button>
             </div>
             <div class="btn-containers">
-                <button id="row5-col4" class="cell block5 row5 col4"></button>
-                <button id="row5-col5" class="cell block5 row5 col5"></button>
-                <button id="row5-col6" class="cell block5 row5 col6"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row6-col4" class="cell block5 row6 col4"></button>
-                <button id="row6-col5" class="cell block5 row6 col5"></button>
-                <button id="row6-col6" class="cell block5 row6 col6"></button>
-            </div>
-        </div>
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row4-col7" class="cell block6 row4 col7"></button>
-                <button id="row4-col8" class="cell block6 row4 col8"></button>
-                <button id="row4-col9" class="cell block6 row4 col9"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row5-col7" class="cell block6 row5 col7"></button>
-                <button id="row5-col8" class="cell block6 row5 col8"></button>
-                <button id="row5-col9" class="cell block6 row5 col9"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row6-col7" class="cell block6 row6 col7"></button>
-                <button id="row6-col8" class="cell block6 row6 col8"></button>
-                <button id="row6-col9" class="cell block6 row6 col9"></button>
+                <button id="ab6" class="answer-button">6</button>
+                <button id="ab7" class="answer-button">7</button>
+                <button id="ab8" class="answer-button">8</button>
+                <button id="ab9" class="answer-button">9</button>
+                <button id="abC" class="answer-button">C</button>
             </div>
         </div>
-    </div>
-    <div class="table">
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row7-col1" class="cell block7 row7 col1"></button>
-                <button id="row7-col2" class="cell block7 row7 col2"></button>
-                <button id="row7-col3" class="cell block7 row7 col3"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row8-col1" class="cell block7 row8 col1"></button>
-                <button id="row8-col2" class="cell block7 row8 col2"></button>
-                <button id="row8-col3" class="cell block7 row8 col3"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row9-col1" class="cell block7 row9 col1"></button>
-                <button id="row9-col2" class="cell block7 row9 col2"></button>
-                <button id="row9-col3" class="cell block7 row9 col3"></button>
-            </div>
-        </div>
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row7-col4" class="cell block8 row7 col4"></button>
-                <button id="row7-col5" class="cell block8 row7 col5"></button>
-                <button id="row7-col6" class="cell block8 row7 col6"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row8-col4" class="cell block8 row8 col4"></button>
-                <button id="row8-col5" class="cell block8 row8 col5"></button>
-                <button id="row8-col6" class="cell block8 row8 col6"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row9-col4" class="cell block8 row9 col4"></button>
-                <button id="row9-col5" class="cell block8 row9 col5"></button>
-                <button id="row9-col6" class="cell block8 row9 col6"></button>
-            </div>
-        </div>
-        <div class="div-containers">
-            <div class="btn-containers">
-                <button id="row7-col7" class="cell block9 row7 col7"></button>
-                <button id="row7-col8" class="cell block9 row7 col8"></button>
-                <button id="row7-col9" class="cell block9 row7 col9"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row8-col7" class="cell block9 row8 col7"></button>
-                <button id="row8-col8" class="cell block9 row8 col8"></button>
-                <button id="row8-col9" class="cell block9 row8 col9"></button>
-            </div>
-            <div class="btn-containers">
-                <button id="row9-col7" class="cell block9 row9 col7"></button>
-                <button id="row9-col8" class="cell block9 row9 col8"></button>
-                <button id="row9-col9" class="cell block9 row9 col9"></button>
+
+        <div class="answer-helper">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <label>Answer Helper Off</label>
+                </div>
+                <div class="flip-card-back">
+                    <label>Answer Helper On</label>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="answer-buttons">
-    <button id="auto-solver">Auto Solve</button>
-    <div class="btn-containers">
-        <button id="ab1" class="answer-button">1</button>
-        <button id="ab2" class="answer-button">2</button>
-        <button id="ab3" class="answer-button">3</button>
-        <button id="ab4" class="answer-button">4</button>
-        <button id="ab5" class="answer-button">5</button>
-    </div>
-    <div class="btn-containers">
-        <button id="ab6" class="answer-button">6</button>
-        <button id="ab7" class="answer-button">7</button>
-        <button id="ab8" class="answer-button">8</button>
-        <button id="ab9" class="answer-button">9</button>
-        <button id="abC" class="answer-button">C</button>
-    </div>
-    <button class="new-game">New Game</button>
-</div>
+
+<script src="js/main.js"></script>
+
 </body>
 </html>
-<script src="js/main.js"></script>
