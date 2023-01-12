@@ -131,7 +131,7 @@ button {
 }
 
 .auto-solver {
-  opacity: 0;
+  /*opacity: 0;*/
   height: 50px;
   width: 150px;
   font-size: 20px;
@@ -192,6 +192,10 @@ button {
   transform: rotateY(180deg);
 }
 
+.mouseover {
+  background-color: aqua;
+}
+
 .disabled {
   background-color: springgreen;
   pointer-events: none;
@@ -212,10 +216,6 @@ button {
 
 .duplicate {
   background-color: red !important;
-}
-
-.mouseover {
-  background-color: aqua;
 }
 
 @media only screen and (max-width: 600px) {
